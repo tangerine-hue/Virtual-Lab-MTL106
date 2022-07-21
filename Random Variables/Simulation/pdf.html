@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>math.js | plot</title>
+  <script src="https://unpkg.com/mathjs@10.6.1/lib/browser/math.js"></script>
+
+  <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
+
+  <style>
+    input[type=text] {
+      width: 300px;
+    }
+    input {
+      padding: 6px;
+    }
+    body, html, input {
+      font-family: sans-serif;
+      font-size: 11pt;
+
+    }
+    form {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <p> This plot is only applicable for polynomials</p>
+<form id="form">
+  <label for="eq">Enter an equation:</label>
+  <input type="text" id="eq" value="6*x*(1-x)" />
+  
+  <label>Minimum:</label>
+  <input type="number" id="slower" value="0" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');"> 
+  <label>Maximum:</label>
+  <input type="number" id="supper" value="1" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');">
+  <input type="submit" value="Draw" />
+
+</form>
+
+
+  
+
+<div id="plot"></div>
+
+<p>
+  Used plot library: <a href="https://plot.ly/javascript/">Plotly</a>
+</p>
+
+<script>
+  function draw() {
+    try {
+      // compile the expression once
+      const expression = document.getElementById('eq').value
+      
+      const min = document.getElementById('slower').value 
+      const max = document.getElementById('supper').value 
+      const expr = math.compile(expression)
+
+      //const range = document.getElementByAction('vol').max
+
+      // evaluate the expression repeatedly for different values of x
+      const xValues = math.range(min, max, 0.001).toArray()
+      const yValues = xValues.map(function (x) {
+        return expr.evaluate({x: x})
+      })
+
+      // render the plot using plotly
+      const trace1 = {
+        x: xValues,
+        y: yValues,
+        type: 'scatter'
+      }
+      
+      const data = [trace1]
+
+      Plotly.newPlot('plot', data)
+    }
+    catch (err) {
+      console.error(err)
+      alert(err)
+    }
+  }
+
+  document.getElementById('form').onsubmit = function (event) {
+    event.preventDefault()
+    draw()
+  }
+
+  draw()
+</script>
+
+</body>
+</html>
