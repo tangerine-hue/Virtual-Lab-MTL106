@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   
+<head>
+    <meta charset="utf-8">
+    <title>
+        PMF
+    </title>
+    <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
+      <style>
+    input[type=text] {
+      width: 300px;
+    }
+    input {
+      padding: 6px;
+    }
+    body, html, input {
+      font-family: sans-serif;
+      font-size: 11pt;
+
+    }
+    form {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+   
+<body>
+<form>
+   <h1>Please enter data</h1>
+   <p> The data should be in decimals, NOT in fractions</p>
+   <br>
+      <label for="Xs">X-Axis</label> 
+       <input id="Xs" type="text">
+     <label for="Ys">Y-Axis</label>
+   <input id="Ys" type="text">
+   <br>   
+   <br>
+  <input type="button" value="Save" onclick="savedata()">
+   <input type="button" value="Show data" onclick="displayData()">
+   <input type="button" value="Draw" onclick="draw()">
+  
+</form>
+<div id="display"></div>
+ <div id="plot"></div>
+ 
+
+<script type="text/javascript">
+var arrX=new Array();
+var arrY=new Array();
+var outputText;
+ 
+function savedata(){
+    var xs = document.getElementById('Xs').value;
+    var ys = document.getElementById('Ys').value;
+    
+    arrX[arrX.length]=xs;    
+    arrY[arrY.length]=ys;
+    
+  }
+
+function draw(){
+    const k = arrY.length;
+    const w = Array(k).fill(0.1);
+    var arrSum = new Array(k);
+    for (let i = 0; i < k; i++){
+      arrSum[i] = Number(arrY[i]);
+    }
+    
+    for (let i = 1; i < k; i++){
+      arrSum[i] += arrSum[i-1];
+    }
+    for (let i = 0; i < k; i++){
+      arrY[i] = arrSum[i].toString();
+    }
+    const trace1 = {
+      mode: 'lines+markers',
+      type: 'scatter',
+      x: arrX,
+      y: arrY
+    };
+    const trace2 = { 
+        mode: 'lines+markers',  
+        type: 'bar', 
+        x: arrX, 
+        y: arrY, 
+        width: w
+    };
+    var data2 = [trace2, trace1];
+    //var layout = {title: 'Click Here<br>to Edit Chart Title'};
+    Plotly.newPlot('plot', data2);  
+}  
+ 
+function displayData() 
+{
+  var content="<b>Data Entered by User :</b><br>";
+  content+= [...arrX]+"</br>";
+  content+=[...arrY]+"</br>";
+  
+  document.getElementById('display').innerHTML = content;
+}
+
+document.getElementById('form').onsubmit = function (event) {
+    event.preventDefault()
+    draw()
+  }
+
+</script>
+</body>
+</html>
