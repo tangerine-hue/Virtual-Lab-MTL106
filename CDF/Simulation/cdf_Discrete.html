@@ -6,7 +6,8 @@
     <title>
         PMF
     </title>
-    <script src="https://cdn.plot.ly/plotly-1.35.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+    <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
       <style>
     input[type=text] {
       width: 300px;
@@ -30,29 +31,32 @@
    <h1>Please enter data</h1>
    <p> The data should be in decimals, NOT in fractions</p>
    <br>
-      <label for="Xs">X-Axis</label> 
+      <label for="Xs">x: </label> 
        <input id="Xs" type="text">
-     <label for="Ys">Y-Axis</label>
+     <label for="Ys">P(X = x): </label>
    <input id="Ys" type="text">
    <br>   
    <br>
   <input type="button" value="Save" onclick="savedata()">
+   <input type="button" value="Show Data" onclick="GenerateTable()">
+   <input type="button" value="Draw" onclick="draw()"/>
    
-   <input type="button" value="Draw" onclick="draw()">
-   <input type="button" value="Show Data" onclick="GenerateTable()" />
 <hr />
 <div id="dvTable"></div>
   
 </form>
+<div id="test"></div>
 <div id="display"></div>
  <div id="plot"></div>
+ <div id="jxgbox" class="jxgbox" style="width:1400px; height:600px;"></div>
  
 
 <script type="text/javascript">
 var arrX=new Array();
 var arrY=new Array();
 var outputText;
- 
+const Cum = new Map();
+
 function savedata(){
     var xs = document.getElementById('Xs').value;
     var ys = document.getElementById('Ys').value;
@@ -64,7 +68,7 @@ function savedata(){
 
 function draw(){
     const k = arrY.length;
-    const w = Array(k).fill(0.1);
+    const w = Array(k).fill(0.01);
     var arrSum = new Array(k);
     for (let i = 0; i < k; i++){
       arrSum[i] = Number(arrY[i]);
@@ -76,28 +80,53 @@ function draw(){
     for (let i = 0; i < k; i++){
       arrY[i] = arrSum[i].toString();
     }
-    const trace1 = {
-      mode: 'lines+markers',
-      type: 'scatter',
-      x: arrX,
-      y: arrY
-    };
-    const trace2 = { 
-        mode: 'lines+markers',  
-        type: 'bar', 
-        x: arrX, 
-        y: arrY, 
-        width: w
-    };
-    var data2 = [trace2, trace1];
-    //var layout = {title: 'Click Here<br>to Edit Chart Title'};
-    Plotly.newPlot('plot', data2);  
-}  
+
+
+    if (Number(arrY[k-1]) < 1 && Number(arrY[k-1]) < 0.999999){
+        var display = document.getElementById("display");
+        display.innerHTML = arrY[k-1] + " Invalid Data";
+    }
+    else if (Number(arrY[k-1]) > 1){
+        var display = document.getElementById("display");
+        display.innerHTML = arrY[k-1] + " Invalid Data";
+    }
+    else{
+         var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-1, 2, Number(arrX[k-1]) + 1, -1], axis:false});
+         xaxis = board.create('axis', [[0, 0], [1, 0]], {name: 'x', withLabel: true, label: {position: 'rt', offset:[-15,20]}});
+         yaxis = board.create('axis', [[0, 0], [1, 0]], {name: 'P(X ≤ x)', withLabel: true, label: {position: 'top', offset: [-700, 380]}});
+        // Static example
+        
+        for (let i = 0; i < k; i++){
+            Cum[arrX[i]] = arrY[i];
+        }
+        var test1= document.getElementById("test");
+        
+        var c = board.create('functiongraph', [f], {strokewidth:2});
+        //var result = f(x);
+        
+        function f(x){
+            let y = 0;
+            for (let i = 0; i < k; i++){
+                if (Number(arrX[i]) <= x){
+                    y = Math.max(y, arrY[i]);
+                }
+            }
+            
+            return y;
+        }
+        //var curve = board.create('stepfunction', [arrX, arrY]);
+        
+        
+    }
+      
+} 
+
+ 
 
    function GenerateTable() {
         //Build an array containing Customer records.
         var customers = new Array();
-        customers.push(["X-Axis", "Y-Axis" ]);
+        customers.push(["x", "P(X = x)" ]);
         for (let i = 0; i < arrY.length; i++){
           customers.push([arrX[i], arrY[i]]);
         }
