@@ -30,9 +30,9 @@
    <h1>Please enter data</h1>
    <p>Data should NOT be in fractions</p>
    <br>
-      <label for="Xs">X-Axis</label> 
+      <label for="Xs">x</label> 
        <input id="Xs" type="text">
-     <label for="Ys">Y-Axis</label>
+     <label for="Ys">P(X = x)</label>
    <input id="Ys" type="text">
    <br>   
    <br>
@@ -64,28 +64,47 @@ function savedata(){
 
 function draw(){
     const k = arrY.length;
-    const w = Array(k).fill(0.1);
-    const trace1 = {
-        mode: 'lines+markers',
-        type: 'scatter',
-        x: arrX,
-        y: arrY
+    var sum = 0;
+    for (let i = 0; i < k; i++){
+        sum += Number(arrY[i]);
     }
-    const trace2 = {
-        x: arrX,
-        y: arrY,
-        width: w,
-        type: 'bar'
+    if (sum > 1){
+        document.getElementById('display').innerHTML = sum;
     }
-    const data2 = [trace2, trace1]
+    else{
+        const w = Array(k).fill(0.01);
+        const trace1 = {
+            mode: 'markers',
+            type: 'scatter',
+            x: arrX,
+            y: arrY
+        }
+        const trace2 = {
+            x: arrX,
+            y: arrY,
+            width: w,
+            type: 'bar'
+        }
+        const layout = {
+            xaxis: {
+                title: 'x'
+            },
+            yaxis: {
+                title: 'P(X = x)'
+            }
+        }
+        layout.yaxis.showline = true
+        const data2 = [trace2, trace1]
     
-    Plotly.newPlot('plot2', data2)   
+        Plotly.newPlot('plot2', data2, layout)
+    }
+       
 }  
  
 function GenerateTable() {
         //Build an array containing Customer records.
     var customers = new Array();
-    customers.push(["X-Axis", "Y-Axis" ]);
+    customers.push(["x", "P(X = x)" ]);
     for (let i = 0; i < arrY.length; i++){
       customers.push([arrX[i], arrY[i]]);
     }
@@ -123,3 +142,8 @@ function GenerateTable() {
 </script>
 </body>
 </html>
+
+
+
+
+

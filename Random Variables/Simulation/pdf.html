@@ -28,12 +28,13 @@
 <body>
   <p> This plot is only applicable for polynomials</p>
 <form id="form">
-  <label for="eq">Enter an equation:</label>
+  <label for="eq">Enter PDF :</label>
   <input type="text" id="eq" value="6*x*(1-x)" />
+  <br>
+  <br>
   
-  <label>Minimum:</label>
   <input type="number" id="slower" value="0" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');"> 
-  <label>Maximum:</label>
+  <label> ≤ X  ≤ </label>
   <input type="number" id="supper" value="1" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');">
   <input type="submit" value="Draw" />
 
@@ -72,10 +73,19 @@
         y: yValues,
         type: 'scatter'
       }
-      
+      const layout = {
+          xaxis: {
+              title: 'x'
+          },
+          yaxis: {
+              title: 'P(X = x)'
+          }
+      }
       const data = [trace1]
+      
+      
 
-      Plotly.newPlot('plot', data)
+      Plotly.newPlot('plot', data, layout);
     }
     catch (err) {
       console.error(err)
