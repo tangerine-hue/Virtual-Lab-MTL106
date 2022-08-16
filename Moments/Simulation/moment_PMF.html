@@ -28,7 +28,8 @@
 <form>
    <h1>Please enter data</h1>
    <p>Data should NOT be in fractions</p>
-   <p> Upper limit (or infinity) of x is 10000</p>
+   <p> Upper limit of x is 10000</p>
+   <p> P(X = x) ≥ 0</p>
    <br>
      <label for="Xs">x: </label> 
        <input id="Xs" type="text">
@@ -120,8 +121,11 @@ function calculate(){
     var sum = 0;
     for (let i = 0; i < k; i++){
         sum += Number(arrY[i]);
+        if (Number(arrY[i]) < 0){
+            bool = true;
+        }
     }
-    if (sum > 1){
+    if (sum > 1 || bool){
         document.getElementById('output').innerHTML = "INVALID DATA";
     }
     else{

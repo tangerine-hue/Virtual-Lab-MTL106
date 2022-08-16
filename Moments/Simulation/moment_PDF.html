@@ -28,7 +28,8 @@
 <body>
 
 <form id="form">
-  <p> Upper limit (or infinity) of x is 10000</p>
+  <p> Upper limit of x is 10000</p>
+  <p> P(X = x) ≥ 0</p>
   <label for="eq">Enter PDF:</label>
   <input type="text" id="eq" value="6*x*(1-x)" />
   <br>
@@ -36,7 +37,7 @@
   <input type="number" id="slower" value="0" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');"> 
   <label> ≤ x  ≤ </label>
   <input type="number" id="supper" value="1" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');">
-  <input type="submit" value="Submit" />
+  
 
   
   
@@ -84,7 +85,13 @@
     inB = eval(inB.replaceAll("pi","Math.PI"));
 
   //create the output texts
-    outputText = createElement('p', r + "ᵗʰ moment around " + k + " = " + integrate(inA, inB, inEquation, .001));
+    if (integrate(inA, inB, inEquation, .001) < 0){
+      outputText = createElement('p', "INVALID DATA");
+    }
+    else{
+      outputText = createElement('p', r + "ᵗʰ moment around " + k + " = " + integrate(inA, inB, inEquation, .001));
+    }
+    
   }
 
   function plugIn(x, equation) {
