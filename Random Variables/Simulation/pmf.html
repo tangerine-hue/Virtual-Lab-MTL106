@@ -29,7 +29,8 @@
 <form>
    <h1>Please enter data</h1>
    <p>Data should NOT be in fractions</p>
-   <p> Upper limit (or infinity) of x is 10000</p>
+   <p> Upper limit of x is 10000</p>
+   <p> P(X = x) ≥ 0</p>
    <br>
       <label for="Xs">x</label> 
        <input id="Xs" type="text">
@@ -66,11 +67,15 @@ function savedata(){
 function draw(){
     const k = arrY.length;
     var sum = 0;
+    let bool = false;
     for (let i = 0; i < k; i++){
+        if (Number(arrY[i]) < 0){
+            bool = true;
+        }
         sum += Number(arrY[i]);
     }
-    if (sum > 1){
-        document.getElementById('display').innerHTML = sum;
+    if (sum > 1 || bool){
+        document.getElementById('display').innerHTML = "INVALID DATA";
     }
     else{
         const w = Array(k).fill(0.01);

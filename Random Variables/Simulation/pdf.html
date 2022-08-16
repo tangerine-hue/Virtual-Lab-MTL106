@@ -27,7 +27,8 @@
 
 <body>
   <p> This plot is only applicable for polynomials</p>
-  <p> Upper limit (or infinity) of x is 10000</p>
+  <p> Upper limit of x is 10000</p>
+  <p> P(X = x) ≥ 0</p>
 <form id="form">
   <label for="eq">Enter PDF :</label>
   <input type="text" id="eq" value="6*x*(1-x)" />
@@ -35,7 +36,7 @@
   <br>
   
   <input type="number" id="slower" value="0" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');"> 
-  <label> ≤ X  ≤ </label>
+  <label> ≤ x  ≤ </label>
   <input type="number" id="supper" value="1" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');">
   <input type="submit" value="Draw" />
 
@@ -68,6 +69,21 @@
         return expr.evaluate({x: x})
       })
 
+      let bool = false;
+      let sum = 0;
+      for(let i = 0; i < yValues.length; i++){
+        if(yValues[i] < 0){
+          bool = true;
+        }
+        sum += yValues[i] * 0.001;
+      }
+
+      if(sum > 1 || sum < 0.99){
+        bool = true;
+      }
+      if (bool){
+        throw ("Please enter the correct data");
+      }
       // render the plot using plotly
       const trace1 = {
         x: xValues,
