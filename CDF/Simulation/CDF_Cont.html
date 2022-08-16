@@ -40,7 +40,8 @@
   
   <br>
   <p> This plot is only applicable for polynomials</p>
-  <p> Upper limit (or infinity) of x is 10000</p>
+  <p> Upper limit of x is 10000</p>
+  <p> P(X = x) ≥ 0</p>
 </form>
 
 
@@ -73,6 +74,21 @@
       })
 
       // render the plot using plotly
+      let bool = false;
+      if (yValues[0] != 0){
+        bool = true;
+      }
+      if (yValues.at(-1) > 1 || yValues.at(-1) < 0.9999){
+        bool = true;
+      }
+      for (let i = 1; i < yValues.length; i++){
+        if (yValues[i] < yValues[i-1]){
+          bool = true;
+        }
+      }
+      if (bool){
+        throw ("Please enter the correct data");
+      }
       const trace1 = {
         x: xValues,
         y: yValues,
