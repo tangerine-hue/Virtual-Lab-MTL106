@@ -4,4 +4,4 @@
 2. x; Interval - [0, 1]
 3. 1/2 + x/2; Interval - [0, 1]
 4. (x*x)/4; Interval - [0, 2]
-
+5. (x*x*x); Interval - [0, 1]
