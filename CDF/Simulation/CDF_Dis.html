@@ -21,7 +21,7 @@
 
     }
     form {
-      margin: 20px 0;
+      margin: 30px 80px;
     }
   </style>
 </head>
@@ -84,7 +84,7 @@ function draw(){
     }
 
 
-    if (Number(arrY[k-1]) < 1 && Number(arrY[k-1]) < 0.999999){
+    if (Number(arrY[k-1]) < 1 && Number(arrY[k-1]) < 0.99){
         var display = document.getElementById("display");
         display.innerHTML = arrY[k-1] + " Invalid Data";
     }
@@ -93,7 +93,7 @@ function draw(){
         display.innerHTML = arrY[k-1] + " Invalid Data";
     }
     else{
-         var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-1, 2, Number(arrX[k-1])*10, -1], axis:false});
+         var board = JXG.JSXGraph.initBoard('jxgbox', {axis:false, boundingbox:[-1, 2, Number(arrX[k-1])*10, -1]});
          xaxis = board.create('axis', [[0, 0], [1, 0]], {name: 'x', withLabel: true, label: {position: 'rt', offset:[-15,20]}});
          yaxis = board.create('axis', [[0, 0], [1, 0]], {name: 'P(X ≤ x)', withLabel: true, label: {position: 'top', offset: [-700, 380]}});
         // Static example

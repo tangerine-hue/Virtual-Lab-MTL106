@@ -20,13 +20,14 @@
 
     }
     form {
-      margin: 20px 0;
+      margin: 30px 80px;
     }
   </style>
 </head>
 
 <body>
 <form id="form">
+  
   <label for="eq">Enter CDF:</label>
   <input type="text" id="eq" value="x*x*(3-2*x)" />
   <br>
@@ -75,10 +76,10 @@
 
       // render the plot using plotly
       let bool = false;
-      if (yValues[0] != 0){
+      if (yValues[0] < 0){
         bool = true;
       }
-      if (yValues.at(-1) > 1 || yValues.at(-1) < 0.9999){
+      if (yValues.at(-1) > 1 || yValues.at(-1) < 0.99){
         bool = true;
       }
       for (let i = 1; i < yValues.length; i++){
