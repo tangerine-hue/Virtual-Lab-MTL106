@@ -20,7 +20,7 @@
 
     }
     form {
-      margin: 20px 0;
+      margin: 30px 80px;
     }
   </style>
 </head>
@@ -75,6 +75,7 @@ function savedata(){
   }
   function save() {
       momentAround = document.getElementById('valAround').value;
+      //document.getElementById('output').innerHTML = momentAround;
   }
 function GenerateTable() {
         //Build an array containing Customer records.
@@ -116,6 +117,7 @@ function GenerateTable() {
 
 function calculate(){
     var exp = document.getElementById('moments').value;
+    var bool = false;
     var ans = 0;
     const k = arrX.length;
     var sum = 0;
@@ -125,11 +127,13 @@ function calculate(){
             bool = true;
         }
     }
+
     if (sum > 1 || bool){
         document.getElementById('output').innerHTML = "INVALID DATA";
     }
     else{
         var temparrX = Array(k).fill(1);
+        //document.getElementById('output').innerHTML = "exp" + exp;
         for (let i = 0; i < exp; i++){
             for (let j = 0; j < k; j++){
                 temparrX[j] *= (arrX[j]-momentAround);
@@ -139,7 +143,7 @@ function calculate(){
         for (let i = 0; i < arrY.length; i++){
             ans += arrY[i]*temparrX[i];
         }
-    
+        //document.getElementById('output').innerHTML = sum;
         outputText = exp + "ᵗʰ moment around " + momentAround + " = " + ans;
         document.getElementById('output').innerHTML = outputText;
     }

@@ -20,7 +20,7 @@
 
     }
     form {
-      margin: 20px 0;
+      margin: 30px 80px;
     }
   </style>
 </head>
@@ -39,12 +39,12 @@
   <input type="number" id="supper" value="1" class="inlonger" style="text-align: left;" onkeyup="iptfieldCheck(this, 'r', 'i');">
   
 
-  
+  <p>r ᵗʰ moment around k</p>
+<p>If r = 1, k = 0, then the input will be 1, 0</p>
   
 </form>
 
-<p>r ᵗʰ moment around k</p>
-<p>If r = 1, k = 0, then the input will be 1, 0</p>
+
 
 <div id="output"></div> 
 
@@ -122,6 +122,9 @@
       return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
   };
 </script>
-<label for="moments">Enter r and k (r, k):</label>
+<form>
+  <p>Enter r and k (r, k):</p>
+</form>
+
 </body>
 </html>
